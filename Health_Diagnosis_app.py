@@ -15,7 +15,8 @@ disease_map = {
     1: "COVID-19",
     2: "Dengue",
     3: "Malaria",
-    4: "Pneumonia"
+    4: "Pneumonia",
+    5: "Normal"
 }
 
 # Patch missing class so joblib can load older pipelines
@@ -34,71 +35,69 @@ label_encoder = joblib.load("label_encoder.pkl")
 st.title("🩺 AI Medical Diagnosis Predictor")
 st.write("Enter patient information below to get an AI-powered diagnosis prediction.")
 
-# Tabs for cleaner layout
-tab1, tab2, tab3, tab4 = st.tabs(["👤 Patient Info", "🤧 Symptoms", "❤️ Vitals", "🧪 Lab Tests"])
 
 # ------------------------ TAB 1: PATIENT INFO ------------------------
-with tab1:
-    col1, col2 = st.columns(2)
-    with col1:
-        age = st.slider("Age", 1, 90, 30)
-    with col2:
-        gender = st.selectbox("Gender", ["Male", "Female"])
+st.title("👤 Patient Info")
+col1, col2 = st.columns(2)
+with col1:
+    age = st.slider("Age", 1, 90, 30)
+with col2:
+    gender = st.selectbox("Gender", ["Male", "Female"])
 
 
 # ------------------------ TAB 2: SYMPTOMS ------------------------
-with tab2:
-    st.markdown("### Select symptom severity")
-    severity_options = {
-        "None": 0,
-        "Low": 1,
-        "Moderate": 2,
-        "Severe": 3
-    }
+st.title("🤧 Symptoms")
+st.markdown("### Select symptom severity")
+severity_options = {
+    "None": 0,
+    "Low": 1,
+    "Moderate": 2,
+    "Severe": 3
+}
 
-    def severity_input(label):
-        choice = st.selectbox(label, list(severity_options.keys()))
-        return severity_options[choice]
+def severity_input(label):
+    choice = st.selectbox(label, list(severity_options.keys()))
+    return severity_options[choice]
 
-    c1, c2, c3 = st.columns(3)
-    with c1:
-        fever = severity_input("Fever")
-        fatigue = severity_input("Fatigue")
-        nausea = severity_input("Nausea")
-        skin_rash = severity_input("Skin Rash")
-    with c2:
-        cough = severity_input("Cough")
-        headache = severity_input("Headache")
-        vomiting = severity_input("Vomiting")
-        loss_smell = severity_input("Loss of Smell")
-    with c3:
-        muscle_pain = severity_input("Muscle Pain")
-        diarrhea = severity_input("Diarrhea")
-        loss_taste = severity_input("Loss of Taste")
+c1, c2, c3 = st.columns(3)
+with c1:
+    fever = severity_input("Fever")
+    fatigue = severity_input("Fatigue")
+    nausea = severity_input("Nausea")
+    skin_rash = severity_input("Skin Rash")
+with c2:
+    cough = severity_input("Cough")
+    headache = severity_input("Headache")
+    vomiting = severity_input("Vomiting")
+    loss_smell = severity_input("Loss of Smell")
+with c3:
+    muscle_pain = severity_input("Muscle Pain")
+    diarrhea = severity_input("Diarrhea")
+    loss_taste = severity_input("Loss of Taste")
 
 
 # ------------------------ TAB 3: VITALS ------------------------
-with tab3:
-    c1, c2 = st.columns(2)
-    with c1:
-        systolic_bp = st.slider("Systolic BP", 80, 180, 120)
-        heart_rate = st.slider("Heart Rate", 40, 150, 88)
-        oxygen_saturation = st.slider("Oxygen Saturation (%)", 80, 100, 95)
-    with c2:
-        diastolic_bp = st.slider("Diastolic BP", 50, 120, 80)
-        temperature_c = st.slider("Body Temperature (°C)", 35, 41, 37)
+st.title("❤️ Vitals")
+c1, c2 = st.columns(2)
+with c1:
+    systolic_bp = st.slider("Systolic BP", 80, 180, 120)
+    heart_rate = st.slider("Heart Rate", 40, 150, 88)
+    oxygen_saturation = st.slider("Oxygen Saturation (%)", 80, 100, 95)
+with c2:
+    diastolic_bp = st.slider("Diastolic BP", 50, 120, 80)
+    temperature_c = st.slider("Body Temperature (°C)", 35, 41, 37)
 
 
 # ------------------------ TAB 4: LAB TESTS ------------------------
-with tab4:
-    c1, c2 = st.columns(2)
-    with c1:
-        wbc_count = st.slider("WBC Count (x10⁹/L)", 2.0, 15.0, 7.0)
-        hemoglobin = st.slider("Hemoglobin (g/dL)", 5.0, 18.0, 13.0)
-        crp_level = st.slider("CRP Level (mg/L)", 0.5, 50.0, 10.0)
-    with c2:
-        platelet_count = st.slider("Platelet Count (x10⁹/L)", 50.0, 450.0, 250.0)
-        glucose_level = st.slider("Glucose Level (mg/dL)", 70.0, 200.0, 110.0)
+st.title("🧪 Lab Tests")
+c1, c2 = st.columns(2)
+with c1:
+    wbc_count = st.slider("WBC Count (x10⁹/L)", 2.0, 15.0, 7.0)
+    hemoglobin = st.slider("Hemoglobin (g/dL)", 5.0, 18.0, 13.0)
+    crp_level = st.slider("CRP Level (mg/L)", 0.5, 50.0, 10.0)
+with c2:
+    platelet_count = st.slider("Platelet Count (x10⁹/L)", 50.0, 450.0, 250.0)
+    glucose_level = st.slider("Glucose Level (mg/dL)", 70.0, 200.0, 110.0)
 
 
 st.markdown("## 🔍 Predict Disease")
