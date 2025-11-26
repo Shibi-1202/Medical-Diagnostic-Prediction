@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 import numpy as np
-import plotly.express as px
+
 import sklearn.compose._column_transformer as ct
 st.set_page_config(
     page_title= "Health Diagnosis",
